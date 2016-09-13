@@ -4,7 +4,14 @@ const Process = require('./process');
 
 class Traceroute extends Process {
     constructor() {
-        super('traceroute', ['-q', 1, '-n', '-A']);
+        
+        let args = ['-q', 1, '-n', '-A']
+        
+        let isRoot = parseInt(process.env.SUDO_UID)
+        if (isRoot) args.push('--tcp')
+
+        super('traceroute', args)
+    
     }
 
     parseDestination(data) {
